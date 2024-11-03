@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.lang.reflect.Method;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -41,27 +43,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
         httpSecurity
-                .authorizeHttpRequests((request) -> {
-                    request
-                            .requestMatchers("/resources/**", "/js/**", "/styles/**","/css/**","/fragments/**","/api/v1/**").permitAll()
-                            .requestMatchers("/login").permitAll()
-                            .requestMatchers("/register").permitAll()
-                            .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                            //.requestMatchers("/").hasAuthority("ADMIN")
-                            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                            .anyRequest().authenticated();
-
-                })
-                .formLogin( (form) -> {
-                    form.loginPage("/login")
-                            .defaultSuccessUrl("/?continue")
-                            .permitAll();
-                } )
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests((request) -> request
+                        .requestMatchers("/resources/**", "/js/**", "/styles/**", "/css/**", "/fragments/**").permitAll()
+                        .requestMatchers("/api/v1/**", "/books/**", "/login", "/register").permitAll() // Adjust as needed
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/?continue")
+                        .permitAll()
+                )
                 .logout(logout -> logout.logoutSuccessUrl("/login?logout"));
-        ;
 
         return httpSecurity.build();
     }
+
 }
