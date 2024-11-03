@@ -1,0 +1,18 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reactive_books
+    username: postgres
+    password: mysecretpassword
+
+  security:
+    user:
+      name: mugdho
+      password: password
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+logging:
+  level:
+    root: warn
