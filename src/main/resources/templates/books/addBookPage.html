@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Form</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div th:object="${book}" class="container mt-5">
+    <h2 class="mb-4">Book Form</h2>
+    <form method="post">
+        <!-- Hidden field for ID, useful when updating an existing book -->
+        <input th:value="*{id}" type="hidden" name="id" id="id">
+
+        <!-- Title Field -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input th:value="*{title}" type="text" class="form-control" id="title" name="title" placeholder="Enter book title" required>
+        </div>
+
+        <!-- Author Field -->
+        <div class="mb-3">
+            <label for="author" class="form-label">Author</label>
+            <input th:value="*{author}" type="text" class="form-control" id="author" name="author" placeholder="Enter author name" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

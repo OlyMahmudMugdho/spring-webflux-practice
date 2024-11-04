@@ -1,0 +1,15 @@
+GET http://localhost:8080/books
+Accept: application/json
+
+###
+### Add a book
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "Java",
+  "author": "Mugdho"
+}
+
+###
