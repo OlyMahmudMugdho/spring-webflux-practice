@@ -25,8 +25,20 @@ public class BookController {
         return Mono.just(bookService.addBook(book));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Mono<Book> getBookById(@PathVariable("id") Long id) {
         return Mono.justOrEmpty(bookService.getBookById(id));
+    }
+
+    @PutMapping("/{id}")
+    public Mono<Book> updateBook(@PathVariable("id") Long id, @RequestBody Book book) {
+        Mono<Book> savedBookMono = Mono.justOrEmpty(bookService.getBookById(id));
+        Book savedBook = savedBookMono.block();
+        if (savedBook != null) {
+            book.setId(id);
+            bookService.updateBook(book);
+            return Mono.just(bookService.updateBook(book));
+        }
+        return Mono.empty();
     }
 }
