@@ -41,4 +41,10 @@ public class BookController {
         }
         return Mono.empty();
     }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> deleteBook(@PathVariable("id") Long id) {
+        bookService.deleteBookById(id);
+        return Mono.empty();
+    }
 }

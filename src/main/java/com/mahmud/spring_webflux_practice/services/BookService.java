@@ -3,6 +3,7 @@ package com.mahmud.spring_webflux_practice.services;
 import com.mahmud.spring_webflux_practice.model.Book;
 import com.mahmud.spring_webflux_practice.repositories.BookRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,5 +29,9 @@ public class BookService {
 
     public Book updateBook(Book book) {
         return bookRepository.save(book);
+    }
+
+    public void deleteBookById(Long id) {
+        bookRepository.deleteById(id);
     }
 }
