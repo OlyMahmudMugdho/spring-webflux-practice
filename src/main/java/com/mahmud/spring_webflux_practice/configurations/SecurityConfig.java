@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.lang.reflect.Method;
 
 @Configuration
 @EnableWebSecurity
@@ -24,8 +23,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
@@ -47,7 +44,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/resources/**", "/js/**", "/styles/**", "/css/**", "/fragments/**").permitAll()
-                        .requestMatchers("/api/v1/**", "/books/**", "/login", "/register").permitAll() // Adjust as needed
+                        .requestMatchers("/api/v1/**", "/login", "/register").permitAll() // Adjust as needed
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated()
