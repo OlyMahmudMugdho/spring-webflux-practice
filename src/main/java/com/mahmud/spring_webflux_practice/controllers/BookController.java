@@ -33,13 +33,17 @@ public class BookController {
     @PutMapping("/{id}")
     public Mono<Book> updateBook(@PathVariable("id") Long id, @RequestBody Book book) {
         Mono<Book> savedBookMono = Mono.justOrEmpty(bookService.getBookById(id));
-        Book savedBook = savedBookMono.block();
-        if (savedBook != null) {
-            book.setId(id);
-            bookService.updateBook(book);
-            return Mono.just(bookService.updateBook(book));
-        }
-        return Mono.empty();
+        return savedBookMono.flatMap(
+                existingBook -> {
+                    if (existingBook.getId() != null){
+                        existingBook.setId(id);
+                        existingBook.setTitle(book.getTitle());
+                        existingBook.setAuthor(book.getAuthor());
+                        return Mono.just(bookService.updateBook(existingBook));
+                    }
+                    return Mono.empty();
+                }
+        );
     }
 
     @DeleteMapping("/{id}")
