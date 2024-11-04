@@ -24,4 +24,9 @@ public class BookController {
     public Mono<Book> addBook(@RequestBody Book book) {
         return Mono.just(bookService.addBook(book));
     }
+
+    @GetMapping("{id}")
+    public Mono<Book> getBookById(@PathVariable("id") Long id) {
+        return Mono.justOrEmpty(bookService.getBookById(id));
+    }
 }
