@@ -7,8 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@CrossOrigin("*")
-@RequestMapping(value = {"books","/books"})
+@RequestMapping(value = {"/books","/books/"})
 public class BookController {
     private final BookService bookService;
 
@@ -21,9 +20,8 @@ public class BookController {
         return Flux.fromIterable(bookService.getAllBooks());
     }
 
-    @PostMapping()
-    public Mono<Book> createBook(@RequestBody Book book) {
-        System.out.println(book);
+    @PostMapping
+    public Mono<Book> addBook(@RequestBody Book book) {
         return Mono.just(bookService.addBook(book));
     }
 }
